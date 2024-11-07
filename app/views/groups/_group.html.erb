@@ -1,12 +1,5 @@
-<div id="<%= dom_id group %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Name:</strong>
-    <%= group.name %>
-  </p>
+<div id="<%= dom_id group %>" class="w-full">
+  <h3 class="my-5 text-xl text-secondary"> <%= group.name %></h3>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Description:</strong>
-    <%= group.description %>
-  </p>
-
+  <p class="my-5 text-secondary-rotate"><%= group.description %></p>
 </div>

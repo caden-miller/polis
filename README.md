@@ -1,24 +1,34 @@
-# README
+# Polis
+## Political Open-sourced Legitimate Information Service
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Context
+A project for Glen Miller's PHIL 282 @ TAMU during Fall 2024.
+[INSERT LINK TO PAPER HERE]
+A project to address Habermas' concerns with modern social media, with a little flair.
 
-Things you may want to cover:
+### Dependencies
+This project requires:
+ - Ruby on Rails
+ - pgSQL
+ - Tailwind CSS
+ - Devise
+ - Google Fact-Checking API
 
-* Ruby version
+### Setup
+ 1. First clone the repo
+ 2. Then run some rails commands:
+    ```bash
+    rails db:create
+    ```
+    ```bash
+    rails db:migrate
+    ```
+    ```bash
+    rails db:seed
+    ```
+ 3. Then run the server yourself!
+    ```bash
+    rails s
+    ```
 
-* System dependencies
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

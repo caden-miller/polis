@@ -18,7 +18,7 @@
 
   <div class="my-5" data-controller="word-count">
     <%= form.label :content %>
-    <%= form.text_area :content, id: "content_field", rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full", data: { word_count_target: "textarea", action: "input->word-count#updateWordCount" } %>
+    <%= form.text_area :content, id: "content_field", rows: 4, class: "block text-black shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full", data: { word_count_target: "textarea", action: "input->word-count#updateWordCount" } %>
     <p>Word count: <span data-word-count-target="count">0</span></p>
   </div>
 
@@ -35,7 +35,7 @@
 
   <div class="my-5">
     <%= form.label :policy_issue %>
-    <%= form.select :policy_issue, options_for_select(Post::POLICY_ISSUES), {}, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.select :policy_issue, options_for_select(Post::POLICY_ISSUES), {}, class: "block text-black shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
 

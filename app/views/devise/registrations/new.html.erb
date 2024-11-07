@@ -1,7 +1,7 @@
-<div class="container flex flex-col gap-6">
+<div class="container flex flex-col gap-6 items-center">
   <h2 class="text-2xl font-semibold mb-5">Sign up</h2>
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: "contents") do |f| %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: "contents w-40") do |f| %>
     <!-- Error Messages -->
     <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -35,11 +35,12 @@
     <!-- Political Affiliation Field -->
     <div class="my-5">
       <%= f.label :political_affiliation %>
-      <%= f.text_field :political_affiliation, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+      # select field with options for political affiliation
+      <%= f.select :political_affiliation, User::POLITICAL_AFFILIATIONS, {}, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full text-black" %>
     </div>
 
     <!-- Submit Button -->
-    <div class="inline">
+    <div class="inline flex justify-center">
       <%= f.submit "Sign up", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
     </div>
   <% end %>

@@ -23,7 +23,7 @@
         <!-- Back Button -->
         <% unless current_page?(root_path) %>
           <div class="flex-shrink-0 flex items-center">
-            <%= link_to '<-', request.referrer || root_path, class: 'text-white-700 hover:text-white-900 px-3 py-2 rounded-md text-sm font-medium' %>
+            <%= link_to '<-', request.referrer, class: 'mt-1 text-white-700 hover:text-white-900 px-3 py-2 rounded-md text-sm font-medium' %>
           </div>
         <% end %>
       </div>

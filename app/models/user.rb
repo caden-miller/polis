@@ -8,6 +8,10 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :votes, dependent: :destroy
 
+  # Make political affiliation either "Democrat", "Republican", or "Moderate"
+  POLITICAL_AFFILIATIONS = %w[Democrat Moderate Republican].freeze
+  validates :political_affiliation, inclusion: { in: POLITICAL_AFFILIATIONS }
+
   def display_name
     name.present? ? name : email
   end

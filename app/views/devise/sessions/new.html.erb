@@ -1,29 +1,30 @@
-<div class="container flex flex-col gap-6">
+<div class="container flex flex-col items-center gap-6">
   <h2 class="text-2xl font-semibold mb-5">Log in</h2>
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: "contents") do |f| %>
+
     <!-- Email Field -->
-    <div class="my-5">
+    <div class="my-5 w-4xl">
       <%= f.label :email %>
       <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
 
     <!-- Password Field -->
-    <div class="my-5">
+    <div class="my-5 w-4xl">
       <%= f.label :password %>
       <%= f.password_field :password, autocomplete: "current-password", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
 
     <!-- Remember Me Checkbox (if applicable) -->
     <% if devise_mapping.rememberable? %>
-      <div class="my-5 flex items-center">
+      <div class="my-5 flex items-center w-4xl">
         <%= f.check_box :remember_me, class: "mr-2" %>
-        <%= f.label :remember_me, class: "text-gray-600" %>
+        <%= f.label :remember_me, class: "text-secondary-rotate" %>
       </div>
     <% end %>
 
     <!-- Submit Button -->
-    <div class="inline">
+    <div class="inline flex justify-center w-4xl">
       <%= f.submit "Log in", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
     </div>
   <% end %>

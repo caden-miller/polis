@@ -5,17 +5,19 @@
 
   <% content_for :title, "Groups" %>
 
-  <div class="flex justify-between items-center">
+  <div class="self-center flex justify-between items-center">
     <h1 class="font-bold text-4xl">Groups</h1>
     <%= link_to "New group", new_group_path, class: "rounded-lg py-3 px-5 bg-accent text-white block font-medium" %>
   </div>
 
-  <div id="groups" class="min-w-full">
+  <div id="groups" class="max-w-4xl flex flex-col items-start gap-6 mx-auto">
     <% @groups.each do |group| %>
-      <%= render group %>
-      <p>
-        <%= link_to "Show this group", group, class: "ml-2 rounded-lg py-3 px-5 bg-accent inline-block font-medium" %>
-      </p>
+      <div class="bg-primary-rotate shadow rounded-lg overflow-hidden w-full p-4">
+        <%= render group %>
+        <p>
+          <%= link_to "Show this group", group, class: "rounded-lg py-3 px-5 bg-gray-400 text-black inline-block font-medium" %>
+        </p>
+      </div>
     <% end %>
   </div>
 </div>

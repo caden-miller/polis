@@ -15,11 +15,12 @@
         </li>
       <% end %>
     </ul>
-
-    <%= link_to "Back to groups", groups_path, class: "ml-2 rounded-lg py-3 px-5 bg-secondary-rotate inline-block text-primary font-medium" %>
-    <%= link_to "Edit this group", edit_group_path(@group), class: "mt-2 rounded-lg py-3 px-5 bg-secondary-rotate text-primary inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= button_to "Destroy this group", @group, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-red-500 text-white font-medium" %>
+    <div class="flex justify-between items-center gap-10 mt-4">
+      <%= link_to "Back to groups", groups_path, class: "rounded-lg py-3 px-5 bg-gray-400 inline-block text-black font-medium" %>
+      <%= link_to "Edit this group", edit_group_path(@group), class: "rounded-lg py-3 px-5 bg-secondary-rotate text-primary inline-block font-medium" %>
+      <div class="inline-block">
+        <%= button_to "Destroy this group", @group, method: :delete, class: "rounded-lg py-3 px-5 bg-red-500 text-white font-medium" %>
+      </div>
     </div>
   </div>
 </div>
