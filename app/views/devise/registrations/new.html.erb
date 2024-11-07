@@ -1,0 +1,48 @@
+<div class="container flex flex-col gap-6">
+  <h2 class="text-2xl font-semibold mb-5">Sign up</h2>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: "contents") do |f| %>
+    <!-- Error Messages -->
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <!-- Name Field -->
+    <div class="my-5">
+      <%= f.label :name %>
+      <%= f.text_field :name, autofocus: true, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <!-- Email Field -->
+    <div class="my-5">
+      <%= f.label :email %>
+      <%= f.email_field :email, autocomplete: "email", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <!-- Password Field -->
+    <div class="my-5">
+      <%= f.label :password %>
+      <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <% end %>
+      <%= f.password_field :password, autocomplete: "new-password", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <!-- Password Confirmation Field -->
+    <div class="my-5">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <!-- Political Affiliation Field -->
+    <div class="my-5">
+      <%= f.label :political_affiliation %>
+      <%= f.text_field :political_affiliation, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="inline">
+      <%= f.submit "Sign up", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    </div>
+  <% end %>
+
+  <%= render "devise/shared/links" %>
+</div>

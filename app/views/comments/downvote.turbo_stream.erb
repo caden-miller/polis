@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "comment_vote_section_#{@comment.id}" do %>
+  <%= render 'vote', comment: @comment %>
+<% end %>

@@ -1,0 +1,60 @@
+<div class="container flex flex-col gap-6">
+  <h2 class="text-2xl font-semibold mb-5">Edit <%= resource_name.to_s.humanize %></h2>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }, class: "contents") do |f| %>
+    <!-- Error Messages -->
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <!-- Name Field -->
+    <div class="my-5">
+      <%= f.label :name %>
+      <%= f.text_field :name, autofocus: true, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <!-- Email Field -->
+    <div class="my-5">
+      <%= f.label :email %>
+      <%= f.email_field :email, autocomplete: "email", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <!-- Pending Confirmation Notice (if applicable) -->
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div class="my-5 text-gray-600">
+        Currently waiting confirmation for: <%= resource.unconfirmed_email %>
+      </div>
+    <% end %>
+
+    <!-- Password Field -->
+    <div class="my-5">
+      <%= f.label :password %> <i class="text-sm text-gray-600">(leave blank if you don't want to change it)</i>
+      <%= f.password_field :password, autocomplete: "new-password", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+      <% if @minimum_password_length %>
+        <em class="text-gray-500 block mt-1"><%= @minimum_password_length %> characters minimum</em>
+      <% end %>
+    </div>
+
+    <!-- Password Confirmation Field -->
+    <div class="my-5">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <!-- Current Password Field -->
+    <div class="my-5">
+      <%= f.label :current_password %> <i class="text-sm text-gray-600">(we need your current password to confirm your changes)</i>
+      <%= f.password_field :current_password, autocomplete: "current-password", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="inline">
+      <%= f.submit "Update", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    </div>
+  <% end %>
+
+  <div class="my-5 text-gray-600">
+    Unhappy? 
+    <%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "rounded-lg py-3 px-5 bg-red-600 text-white font-medium cursor-pointer" %>
+  </div>
+
+  <%= link_to "Back", :back, class: "text-blue-500 underline" %>
+</div>

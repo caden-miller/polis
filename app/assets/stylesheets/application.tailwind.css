@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #ffffff;      /* Light mode primary color */
+  --color-primary-rotate: #dbdbdb; /* Light mode primary color with a bit of rotation */
+  --color-secondary: #000000;    /* Light mode secondary color */
+  --color-secondary-rotate: #212020; /* Light mode secondary color with a bit of rotation */
+  --color-accent: #1F2742;       /* Light mode accent color */
+  --color-accent-rotate: #2b3552; /* Light mode accent color with a bit of rotation */
+}
+
+/* Dark mode variables */
+.dark {
+  --color-primary: #121212;      /* Dark mode primary color */
+  --color-primary-rotate: #212020; /* Dark mode primary color with a bit of rotation */
+  --color-secondary: #ffffff;    /* Dark mode secondary color */
+  --color-secondary-rotate: #dbdbdb; /* Dark mode secondary color with a bit of rotation */
+  --color-accent: #BB2533;       /* Dark mode accent color */
+  --color-accent-rotate: #d13a47; /* Dark mode accent color with a bit of rotation */
+}
+
+body {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+}
+
+/* div {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+} */
+
+h1,
+h2,
+h3,
+p {
+  color: var(--color-secondary);
+}
+
+nav {
+  background-color: var(--color-accent);
+
+  div { 
+    background-color: var(--color-accent);
+  }
+}
+
+.shadow {
+  box-shadow: 0 0 10px var(--color-primary-rotate);
+}
+
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-primary-rotate {
+  background-color: var(--color-primary-rotate);
+}
+
+
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+
+.bg-secondary-rotate {
+  background-color: var(--color-secondary-rotate);
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
+}
+
+.bg-accent-rotate {
+  background-color: var(--color-accent-rotate);
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-primary-rotate {
+  color: var(--color-primary-rotate);
+}
+
+.text-secondary {
+  color: var(--color-secondary);
+}
+
+.text-secondary-rotate {
+  color: var(--color-secondary-rotate);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.text-accent-rotate {
+  color: var(--color-accent-rotate);
+}
+
+.border-primary {
+  border-color: var(--color-primary);
+}
+
+.border-primary-rotate {
+  border-color: var(--color-primary-rotate);
+}
+
+.border-secondary {
+  border-color: var(--color-secondary);
+}
+
+.border-secondary-rotate {
+  border-color: var(--color-secondary-rotate);
+}
+
+.border-accent {
+  border-color: var(--color-accent);
+}
+
+.border-accent-rotate {
+  border-color: var(--color-accent-rotate);
+}
+
+.border-red-500 {
+  border-color: #f56565;
+}
+
+input {
+  background-color: white;
+  color: black;
+}
+

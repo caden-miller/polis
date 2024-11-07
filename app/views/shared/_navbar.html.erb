@@ -1,0 +1,75 @@
+<!-- app/views/shared/_navbar.html.erb -->
+<nav class="border-b border-primary-rotate fixed top-0 w-full z-10 text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <!-- Left Side -->
+      <div class="flex">
+        <div class="flex-shrink-0 flex items-center">
+          <%= link_to root_path, class: 'text-white-700 hover:text-white-900 px-3 py-2 rounded-md text-sm font-medium flex items-center' do %>
+            <svg width="24" height="24" viewBox="0 0 475.652 475.653" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M468.86,128.452L243.999,1.613c-3.813-2.15-8.471-2.15-12.281-0.001L6.794,128.451c-3.93,2.216-6.36,6.377-6.36,10.888
+                v24.921c0,3.315,1.317,6.495,3.662,8.839s5.524,3.661,8.84,3.661l22.337-0.003v202.425c-0.001,0.063-0.01,0.127-0.01,0.192v22.606
+                h-22.28c-6.903,0-12.5,5.597-12.5,12.5v48.672c0,6.902,5.597,12.5,12.5,12.5h449.734c6.904,0,12.5-5.598,12.5-12.5v-48.672
+                c0-6.903-5.596-12.5-12.5-12.5h-22.275v-22.606c0-0.072-0.01-0.141-0.012-0.213v-202.46l22.289-0.003
+                c6.902-0.001,12.498-5.597,12.498-12.5V139.34C475.22,134.828,472.79,130.667,468.86,128.452z M130.582,177.754v194.294H60.272
+                V177.754H130.582z M415.431,177.754v194.294h-70.305V177.754H415.431z M332.626,397.048h82.816v17.434
+                c0,6.902,5.596,12.5,12.5,12.5h22.275v23.672H25.484v-23.672h22.279c6.903,0,12.5-5.598,12.5-12.5v-17.434h82.818
+                c6.903,0,12.5-5.596,12.5-12.5V176.741l22.119-0.003v207.811c0,6.904,5.597,12.5,12.5,12.5h95.307c6.902,0,12.5-5.596,12.5-12.5
+                V176.721l22.119-0.003v207.831C320.126,391.452,325.724,397.048,332.626,397.048z M273.008,177.754v194.294h-70.307V177.754
+                H273.008z M450.22,151.7l-424.785,0.058v-5.117l212.421-119.79l212.362,119.79v5.059H450.22z"/>
+            </svg>
+          <% end %>        
+        </div>
+        <!-- Back Button -->
+        <% unless current_page?(root_path) %>
+          <div class="flex-shrink-0 flex items-center">
+            <%= link_to '<-', request.referrer || root_path, class: 'text-white-700 hover:text-white-900 px-3 py-2 rounded-md text-sm font-medium' %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Center Links -->
+      <div class="border-b border-primary-rotate hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8 items-center">
+        <div class="relative group">
+          <div class="inline-block">
+            <%= link_to 'Posts', posts_path, class: 'text-white-700 px-3 py-2 rounded-md text-sm font-medium inline-block' %>
+          </div>
+          <!-- Dropdown Menu -->
+          <div class="absolute hidden group-hover:block bg-primary-rotate border border-primary-rotate shadow-lg mt-0 rounded-md z-50">
+            <% Post::POLICY_ISSUES.each do |issue| %>
+              <%= link_to issue, policy_issue_posts_path(issue), class: 'block px-4 py-2 text-secondary hover:bg-primary hover:text-secondary-rotate whitespace-nowrap' %>
+            <% end %>
+          </div>
+        </div>
+        
+        <%= link_to 'Facts', facts_path, class: 'text-white-700 hover:text-white-900 px-3 py-2 rounded-md text-sm font-medium' %>
+        <%= link_to 'Groups', groups_path, class: 'text-white-700 hover:text-white-900 px-3 py-2 rounded-md text-sm font-medium' %>
+        <%= link_to 'Comments (TODO)', posts_path, class: 'text-white-700 hover:text-white-900 px-3 py-2 rounded-md text-sm font-medium' %>
+        <%= link_to 'Votes (TODO)', votes_path, class: 'text-white-700 hover:text-white-900 px-3 py-2 rounded-md text-sm font-medium' %>
+      </div>
+
+      <!-- Right Side -->
+      <div class="flex items-center">
+        <% if user_signed_in? %>
+          <%= link_to 'Edit Profile', edit_user_registration_path, class: 'text-white-700 hover:text-white-900 px-3 py-2 rounded-md text-sm font-medium' %>
+          <%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'text-white-700 hover:text-white-900 px-3 py-2 rounded-md text-sm font-medium' %>
+        <% else %>
+          <%= link_to 'Sign In', new_user_session_path, class: 'text-white-700 hover:text-white-900 px-3 py-2 rounded-md text-sm font-medium' %>
+          <%= link_to 'Sign Up', new_user_registration_path, class: 'text-white-700 hover:text-white-900 px-3 py-2 rounded-md text-sm font-medium' %>
+        <% end %>
+        <!-- app/views/layouts/application.html.erb -->
+        <button
+          data-controller="dark-mode"
+          data-action="click->dark-mode#toggle"
+          data-dark-mode-target="icon"
+          class="bg-accent text-white rounded flex items-center justify-center h-full px-4"
+        >
+          <!-- The icon will be injected here by the Stimulus controller -->
+          <span data-dark-mode-target="icon">
+            <!-- Optionally, include a default icon here -->
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,98 @@
+<!-- app/views/users/show.html.erb -->
+
+<div class="max-w-7xl mx-auto py-8 px-4">
+  <!-- User Info -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold mb-2"><%= @user.name %>'s Profile</h1>
+    <p class="text-gray-600"><%= @user.email %></p>
+    <!-- Add more user info as needed -->
+  </div>
+
+  <!-- Tabs -->
+  <div x-data="{ tab: 'posts' }">
+    <!-- Tab Buttons -->
+    <nav class="flex mb-4">
+      <button
+        class="py-2 px-4 rounded-t-lg focus:outline-none"
+        :class="{ 'bg-white text-blue-500': tab === 'posts', 'bg-gray-200 text-gray-600': tab !== 'posts' }"
+        @click="tab = 'posts'">
+        Posts
+      </button>
+      <button
+        class="py-2 px-4 ml-2 rounded-t-lg focus:outline-none"
+        :class="{ 'bg-white text-blue-500': tab === 'comments', 'bg-gray-200 text-gray-600': tab !== 'comments' }"
+        @click="tab = 'comments'">
+        Comments
+      </button>
+      <button
+        class="py-2 px-4 ml-2 rounded-t-lg focus:outline-none"
+        :class="{ 'bg-white text-blue-500': tab === 'votes', 'bg-gray-200 text-gray-600': tab !== 'votes' }"
+        @click="tab = 'votes'">
+        Votes
+      </button>
+    </nav>
+
+    <!-- Tab Contents -->
+    <div class="bg-white p-4 rounded-b-lg shadow">
+      <!-- Posts Tab -->
+      <div x-show="tab === 'posts'">
+        <% if @posts.any? %>
+          <div class="space-y-4">
+            <% @posts.each do |post| %>
+              <div class="border p-4 rounded">
+                <h2 class="text-xl font-bold"><%= link_to post.title, post_path(post), class: "hover:underline" %></h2>
+                <p class="text-gray-600"><%= truncate(post.content, length: 100) %></p>
+                <p class="text-sm text-gray-500">Posted on <%= post.created_at.strftime("%B %d, %Y") %></p>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-gray-600">No posts yet.</p>
+        <% end %>
+      </div>
+
+      <!-- Comments Tab -->
+      <div x-show="tab === 'comments'" x-cloak>
+        <% if @comments.any? %>
+          <div class="space-y-4">
+            <% @comments.each do |comment| %>
+              <div class="border p-4 rounded">
+                <p class="text-gray-700"><%= comment.content %></p>
+                <p class="text-sm text-gray-500">
+                  Commented on
+                  <%= link_to comment.post.title, post_path(comment.post), class: "text-blue-500 hover:underline" %>
+                  on <%= comment.created_at.strftime("%B %d, %Y") %>
+                </p>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-gray-600">No comments yet.</p>
+        <% end %>
+      </div>
+
+      <!-- Votes Tab -->
+      <div x-show="tab === 'votes'" x-cloak>
+        <% if @votes.any? %>
+          <div class="space-y-4">
+            <% @votes.each do |vote| %>
+              <div class="border p-4 rounded">
+                <p class="text-gray-700">
+                  Voted <%= vote.value == 1 ? 'Up' : 'Down' %> on
+                  <% if vote.votable_type == 'Post' %>
+                    Post: <%= link_to vote.votable.title, post_path(vote.votable), class: "text-blue-500 hover:underline" %>
+                  <% elsif vote.votable_type == 'Comment' %>
+                    Comment: <%= truncate(vote.votable.content, length: 50) %>
+                  <% end %>
+                </p>
+                <p class="text-sm text-gray-500">On <%= vote.created_at.strftime("%B %d, %Y") %></p>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-gray-600">No votes yet.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="relative flex flex-col bg-primary-rotate shadow rounded overflow-hidden max-w-full w-auto max-h-1/3">
+  <!-- Colored Corner Triangle -->
+  <% if post.user.present? %>
+    <% if post.user.political_affiliation == "Republican" %>
+      <div class="absolute top-0 right-0 w-0 h-0 border-t-[20px] border-l-[20px] border-t-red-500 border-l-transparent"></div>
+    <% elsif post.user.political_affiliation == "Democrat" %>
+      <div class="absolute top-0 right-0 w-0 h-0 border-t-[20px] border-l-[20px] border-t-blue-500 border-l-transparent"></div>
+    <% else %>
+      <div class="absolute top-0 right-0 w-0 h-0 border-t-[20px] border-l-[20px] border-t-green-500 border-l-transparent"></div>
+    <% end %>
+  <% end %>
+
+  <!-- Post Title -->
+  <div class="p-4">
+    <h2 class="text-xl font-semibold"><%= link_to post.title, post %></h2>
+  </div>
+
+  <!-- Images -->
+  <% if post.images.attached? and post.images.count > 1 %>
+    <div data-controller="carousel" class="relative flex flex-1 grow max-h-48">
+      <!-- Slides -->
+      <div class="overflow-hidden relative">
+        <% post.images.each_with_index do |image, index| %>
+          <div data-carousel-target="slide" class="<%= 'hidden' unless index == 0 %> transition duration-500 ease-in-out">
+            <%= image_tag image.variant(resize_to_limit: [600, 400]).processed, alt: post.title, class: 'max-w-full h-auto mx-auto' %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Previous Button -->
+      <button data-action="click->carousel#previous" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 bg-opacity-50 text-white p-2">
+        <!-- Left Arrow Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <!-- Next Button -->
+      <button data-action="click->carousel#next" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 bg-opacity-50 text-white p-2">
+        <!-- Right Arrow Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  <% elsif post.images.attached? %>
+    <div class="overflow-hidden flex-1">
+      <%= image_tag post.images.first.variant(resize_to_limit: [600, 400]).processed, alt: post.title, class: 'max-w-full h-auto mx-auto' %>
+    </div>
+  <% else %>
+    <div class="overflow-hidden flex-1">
+      <p class="p-4"><%= post.content %></p>
+    </div>
+  <% end %>
+
+  <!-- References -->
+  <% if post.references.present? %>
+    <div class="p-4 flex-initial max-h-28 overflow-y-auto">
+      <h3 class="font-semibold">References:</h3>
+      <ul class="list-disc list-inside">
+        <% post.references.split(/\r?\n/).each do |reference| %>
+          <% reference.strip! %>
+          <% if reference.present? %>
+            <% display_text = URI.parse(reference).host rescue reference %>
+            <li>
+              <%= link_to display_text, reference, target: "_blank", rel: "noopener noreferrer", class: "text-blue-600 hover:underline break-all" %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Author -->
+  <div class="p-4 border-t flex items-center justify-between">
+    <p class="text-sm text-secondary-rotate">
+      <%= post.user ? post.user.display_name : "Deleted User" %>
+    </p>
+    <%= render 'posts/vote', post: post %>
+  </div>
+</div>

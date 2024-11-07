@@ -1,0 +1,42 @@
+<!-- app/views/facts/index.html.erb -->
+<div class="container mx-auto px-4 py-6">
+    <h1 class="text-3xl font-bold mb-4 text-center">Fact Checker</h1>
+
+    <div class="max-w-5xl mx-auto">
+    <%= form_with url: facts_path, method: :get, local: true do |form| %>
+        <div class="flex flex-row w-full items-center gap-6">
+            <div class="flex-grow mb-4">
+            <%= form.label :query, "Enter a statement to fact-check:", class: "block text-secondary-rotate text-sm font-bold mb-2" %>
+            <%= form.text_field :query, value: params[:query].to_s, class: "w-full text-black px-4 bg-white py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" %>
+            </div>
+            <div class="text-center h-7">
+            <%= form.submit "Check Facts", class: "cursor-pointer bg-accent hover:bg-accent-rotate text-white font-bold py-2 px-4 rounded" %>
+            </div>
+        </div>
+    <% end %>
+    </div>
+
+    <% if @results.any? %>
+    <h2 class="text-2xl font-bold mt-8 mb-4">Results:</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mx-auto">
+        <% @results.each do |result| %>
+        <div class="bg-primary-rotate p-4 rounded-lg shadow-md">
+            <h3 class="text-lg text-secondary font-semibold mb-2 pb-5"><%= result[:text] %></h3>
+            <% if result[:review] %>
+              <% result[:review].each do |review| %>
+                <div class="mt-2">
+                    <strong>Publisher:</strong> <%= review[:publisher] %><br>
+                    <strong>Rating:</strong> <%= review[:rating] %><br>
+                    <a href="<%= review[:url] %>" class="text-blue-500 underline" target="_blank">Read More</a>
+                </div>
+              <% end %>
+            <% else %>
+            <p>No reviews available.</p>
+            <% end %>
+        </div>
+        <% end %>
+    </div>
+    <% elsif params[:query].present? %>
+    <p class="text-center text-gray-500 mt-4">No fact-checks found for this query.</p>
+    <% end %>
+</div>

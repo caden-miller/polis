@@ -1,0 +1,22 @@
+<!-- app/views/home/index.html.erb -->
+
+<div class="max-w-7xl mx-auto py-8 px-4">
+  <!-- Site Description -->
+  <div class="mb-8">
+    <h1 class="text-4xl text-center text-secondary font-bold mb-4">POLIS</h1>
+    <p class="text-lg text-center text-secondary-rotate">Political Open-sourced Legitimate Information Service</p>
+  </div>
+
+  <!-- Policy Issues with Posts -->
+  <% @policy_issues.each do |issue| %>
+    <div class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4"><%= issue %></h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <% @posts_by_policy_issue[issue].each do |post| %>
+          <!-- Render the post partial -->
+          <%= render partial: 'posts/post', locals: { post: post } %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

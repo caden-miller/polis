@@ -1,0 +1,33 @@
+<div id="post_vote_section_<%= post.id %>">
+  <% if user_signed_in? %>
+    <% user_vote = post.votes.find_by(user: current_user) %>
+    <div class="flex flex-col items-center justify-center">
+      <!-- Upvote Button -->
+      <%= button_to upvote_post_path(post), method: :post, remote: true, form: { data: { turbo_stream: true } }, class: "vote text-gray-500 hover:text-green-600 #{'text-green-600 ' if user_vote&.value == 1}" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <!-- Up Arrow Icon -->
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      <% end %>
+
+      <!-- Vote Count -->
+      <span class="text-text-secondary-rotate">
+        <%= post.vote_count %>
+      </span>
+
+      <!-- Downvote Button -->
+      <%= button_to downvote_post_path(post), method: :post, remote: true, form: { data: { turbo_stream: true } }, class: "vote text-gray-500 hover:text-red-600 #{'text-red-600' if user_vote&.value == -1}" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <!-- Down Arrow Icon -->
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="flex flex-col items-center justify-center">
+      <span class="text-secondary-rotate">
+          <%= post.vote_count %>
+      </span>
+    </div>
+  <% end %>
+</div>

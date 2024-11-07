@@ -1,0 +1,17 @@
+<!-- app/views/posts/policy_issue.html.erb -->
+<div class="container mx-auto px-4 py-6">
+  <h1 class="text-3xl font-bold mb-4"><%= @policy_issue %> Posts</h1>
+  <div class="flex justify-end mb-6">
+    <%= link_to 'New Post', new_post_path, class: 'bg-accent text-white px-4 py-2 rounded' %>
+  </div>
+
+  <% if @posts.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <% @posts.each do |post| %>
+        <%= render 'post', post: post %>
+      <% end %>
+    </div>
+  <% else %>
+    <p>No posts available.</p>
+  <% end %>
+</div>
