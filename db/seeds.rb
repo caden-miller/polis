@@ -6,6 +6,7 @@ require 'faker'
 ActiveRecord::Base.transaction do
   Vote.destroy_all
   Comment.destroy_all
+  Reference.destroy_all
   Post.destroy_all
   Group.destroy_all
   User.destroy_all
@@ -137,20 +138,25 @@ policy_issues.each do |policy_issue|
     # Generate content relevant to the title and policy issue
     content = generate_content(policy_issue, title)
 
-    # Occasionally add references
-    references = nil
-    if rand(1..10) > 6
-      hostnames = ['wikipedia.org', 'nytimes.com', 'theguardian.com', 'un.org']
-      references = Faker::Internet.url(host: hostnames.sample)
-    end
-
+    # Create the post without the references attribute
     post = Post.create!(
       title: title,
       content: content,
-      references: references,
       policy_issue: policy_issue,
       user: user
     )
+
+    # Occasionally add references
+    if rand(1..10) > 6
+      hostnames = ['https://www.wikipedia.org', 'https://www.nytimes.com', 'https://www.theguardian.com', 'https://www.un.org']
+      reference_count = rand(1..3) # Add 1 to 3 references
+      reference_count.times do
+        reference = post.references.create!(
+          text: Faker::Lorem.sentence(word_count: 1),
+          url: Faker::Internet.url(host: hostnames.sample)
+        )
+      end
+    end
 
     posts << post
   end
@@ -160,7 +166,7 @@ end
 posts.each do |post|
   rand(2..5).times do
     Comment.create!(
-      content: Faker::Lorem.sentence(word_count: 15),
+      content: Faker::Lorem.sentence(word_count: 25),
       user: users.sample,
       post: post
     )
@@ -182,5 +188,6 @@ end
 puts "Created #{User.count} users"
 puts "Created #{Group.count} groups"
 puts "Created #{Post.count} posts"
+puts "Created #{Reference.count} references"
 puts "Created #{Comment.count} comments"
 puts "Created #{Vote.count} votes"
