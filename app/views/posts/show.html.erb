@@ -105,7 +105,7 @@
         <%= link_to "Edit", edit_post_path(@post), class: "border-secondary-rotate bg-primary text-secondary py-2 px-4 rounded-lg" %>
         <%= button_to "Delete", @post, method: :delete, class: "bg-red-500 text-white py-2 px-4 rounded-lg ml-2", data: { confirm: "Are you sure?" } %>
       <% end %>
-      <% if current_user.role == "moderator" && !@post.verified %>
+      <% if user_signed_in? and current_user.role == "moderator" && !@post.verified %>
         <%= button_to "Verify", verify_post_path(@post), method: :post, class: "bg-green-500 text-white py-2 px-4 rounded-lg ml-2", data: { confirm: "Verify this post?" } %>
       <% end %>
     </div>
