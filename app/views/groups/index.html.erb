@@ -10,7 +10,7 @@
     <%= link_to "New group", new_group_path, class: "rounded-lg py-3 px-5 bg-accent text-white block font-medium" %>
   </div>
 
-  <div id="groups" class="max-w-4xl flex flex-col items-start gap-6 mx-auto">
+  <div id="groups" class="max-w-4xl flex flex-col items-start gap-6 mx-auto mt-8">
     <% @groups.each do |group| %>
       <div class="bg-primary-rotate shadow rounded-lg overflow-hidden w-full p-4">
         <%= render group %>

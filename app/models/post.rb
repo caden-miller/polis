@@ -1,16 +1,9 @@
 class Post < ApplicationRecord
   belongs_to :user, optional: true
-  has_many_attached :images
   has_many :comments, dependent: :destroy
   has_many :votes, as: :votable, dependent: :destroy
-
-  # Validations (optional but recommended)
-  validates :title, presence: true
-  validates :content, presence: true
-
-  def vote_count
-    votes.sum(:value)
-  end
+  has_many :references, dependent: :destroy
+  accepts_nested_attributes_for :references, allow_destroy: true, reject_if: :all_blank
 
   POLICY_ISSUES = [
     'Anti-Corruption and Transparency',
@@ -32,5 +25,21 @@ class Post < ApplicationRecord
     'Treaties and International Agreements'
   ]
 
+  validates :title, presence: true
+  validates :content, presence: true
   validates :policy_issue, inclusion: { in: POLICY_ISSUES }
+
+  def vote_count
+    votes.sum(:value)
+  end
+
+  def content_with_references
+    processed_content = content.dup
+    references.each do |reference|
+      placeholder = "[#{reference.text}]"
+      link = ActionController::Base.helpers.link_to(reference.text, reference.url, target: "_blank", rel: "noopener noreferrer", class: "text-blue-600 hover:underline")
+      processed_content.gsub!(placeholder, link)
+    end
+    processed_content.html_safe
+  end
 end

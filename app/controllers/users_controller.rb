@@ -4,9 +4,14 @@ class UsersController < ApplicationController
   before_action :set_user
 
   def show
-    @posts = @user.posts.order(created_at: :desc)
-    @comments = @user.comments.order(created_at: :desc)
-    @votes = @user.votes.includes(:votable).order(created_at: :desc)
+    @user = User.find(params[:id])
+    @total_karma = @user.votes.sum(:value)
+    @total_votes = @user.votes.count
+    @average_vote_value = @total_votes > 0 ? (@user.votes.average(:value).to_f.round(2)) : 0
+    @posts = @user.posts
+    @comments = @user.comments
+    @groups = @user.groups
+    @votes = @user.votes
   end
 
   private

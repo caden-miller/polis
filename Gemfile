@@ -77,8 +77,5 @@ end
 # For user authentification
 gem 'devise'
 
-# For image uploading 
-gem 'image_processing', '~> 1.2'
-
 # For data seeding
 gem 'faker'

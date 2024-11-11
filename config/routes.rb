@@ -11,8 +11,9 @@ Rails.application.routes.draw do
       put 'report'
       post 'upvote'
       post 'downvote'
+      post 'verify'
     end
-    resources :comments, only: [:create] do
+    resources :comments, only: [:create, :destroy] do
       member do
         put 'report', to: 'comments#report', as: 'report'
         post 'upvote', to: 'comments#upvote', as: :upvote

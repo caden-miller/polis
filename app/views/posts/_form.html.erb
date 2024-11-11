@@ -22,15 +22,32 @@
     <p>Word count: <span data-word-count-target="count">0</span></p>
   </div>
 
-  <div class="my-5">
-    <%= form.label :images %>
-    <%= form.file_field :images, multiple: true %>
-  </div>
+  <div class="my-5" data-controller="references">
+    <div data-references-target="references" id="references">
+      <%# Remove this line if it's building empty references %>
+      <%# post.references.build if post.references.empty? %>
+      <%# Instead, only build references if necessary %>
+      <%= form.fields_for :references do |ref_form| %>
+        <!-- Reference fields -->
+      <% end %>
+    </div>
 
-  <div class="my-5">
-    <%= form.label :references %>
-    <%= form.text_area :references, rows: 4, placeholder: "Enter one URL per line", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
-    <p class="text-sm text-gray-500">Enter each reference URL on a new line.</p>
+    <%= link_to "Add Reference", '#', id: "add_reference", class: "text-blue-500 hover:underline", data: { action: "click->references#addReference" } %>
+
+    <!-- Hidden template for new references -->
+    <template data-references-target="template">
+      <div class="reference-fields mb-2">
+        <%= form.fields_for :references, Reference.new, child_index: "NEW_RECORD" do |ref_form| %>
+          <%= ref_form.label :text, "Reference Text", class: "block text-secondary font-bold" %>
+          <%= ref_form.text_field :text, class: "w-full px-2 py-1 border rounded" %>
+
+          <%= ref_form.label :url, "Reference URL", class: "block text-secondary font-bold mt-2" %>
+          <%= ref_form.text_field :url, class: "w-full px-2 py-1 border rounded" %>
+
+          <%= ref_form.hidden_field :_destroy, value: false %>
+        <% end %>
+      </div>
+    </template>
   </div>
 
   <div class="my-5">

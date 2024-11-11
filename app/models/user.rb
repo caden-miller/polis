@@ -10,9 +10,16 @@ class User < ApplicationRecord
 
   # Make political affiliation either "Democrat", "Republican", or "Moderate"
   POLITICAL_AFFILIATIONS = %w[Democrat Moderate Republican].freeze
-  validates :political_affiliation, inclusion: { in: POLITICAL_AFFILIATIONS }
+  validates :name, :email, :password, presence: true
+  validates :username, presence: true, uniqueness: true
+  validates :political_affiliation, inclusion: { in: POLITICAL_AFFILIATIONS }, presence: true
+
+  ROLES = %w[user moderator]
+
+  # Validations
+  validates :role, inclusion: { in: ROLES }
 
   def display_name
-    name.present? ? name : email
+    username
   end
 end

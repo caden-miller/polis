@@ -20,11 +20,11 @@
     <h2 class="text-2xl font-bold mt-8 mb-4">Results:</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mx-auto">
         <% @results.each do |result| %>
-        <div class="bg-primary-rotate p-4 rounded-lg shadow-md">
-            <h3 class="text-lg text-secondary font-semibold mb-2 pb-5"><%= result[:text] %></h3>
+        <div class="flex flex-col bg-primary-rotate p-4 rounded-lg shadow-md">
+            <h3 class="text-lg text-secondary font-semibold mb-2 pb-5 flex-1"><%= result[:text] %></h3>
             <% if result[:review] %>
               <% result[:review].each do |review| %>
-                <div class="mt-2">
+                <div class="flex-0 mt-2">
                     <strong>Publisher:</strong> <%= review[:publisher] %><br>
                     <strong>Rating:</strong> <%= review[:rating] %><br>
                     <a href="<%= review[:url] %>" class="text-blue-500 underline" target="_blank">Read More</a>

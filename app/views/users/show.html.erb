@@ -1,97 +1,102 @@
-<!-- app/views/users/show.html.erb -->
+<div class="w-full max-w-screen-lg mx-auto py-6 px-4">
+  <h1 class="text-3xl font-bold mb-4"><%= @user.name %>'s Profile</h1>
+  
+  <% if @user.political_affiliation.present? %>
+    <% if @user.political_affiliation == "Republican" %>
+      <div class="bg-red-500 text-white p-4 rounded-md shadow mb-6">
+        <p class="text-lg font-semibold">Political Affiliation: Republican</p>
+      </div>
+    <% elsif @user.political_affiliation == "Democrat" %>
+      <div class="bg-blue-500 text-white p-4 rounded-md shadow mb-6">
+        <p class="text-lg font-semibold">Political Affiliation: Democrat</p>
+      </div>
+    <% else %>
+      <div class="bg-green-500 text-white p-4 rounded-md shadow mb-6">
+        <p class="text-lg font-semibold">Political Affiliation: Moderate</p>
+      </div>
+    <% end %>
+  <% end %>
 
-<div class="max-w-7xl mx-auto py-8 px-4">
-  <!-- User Info -->
-  <div class="mb-8">
-    <h1 class="text-3xl font-bold mb-2"><%= @user.name %>'s Profile</h1>
-    <p class="text-gray-600"><%= @user.email %></p>
-    <!-- Add more user info as needed -->
+  <% if current_user == @user %>
+    <div class="flex justify-center gap-4 mb-6">
+      <%= link_to "Edit Profile", edit_user_registration_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+      <%= link_to "Delete Account", user_registration_path, method: :delete, data: { confirm: "Are you sure you want to delete your account?" }, class: "rounded-lg py-3 px-5 bg-red-600 text-white inline-block font-medium cursor-pointer" %>
+      <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "rounded-lg py-3 px-5 bg-secondary-rotate text-primary inline-block font-medium cursor-pointer" %>
+    </div>
+  <% end %>
+
+  <!-- Karma and Voting Statistics -->
+  <div class="bg-primary-rotate p-4 rounded-md shadow mb-6">
+    <p class="text-lg text-secondary font-semibold">Statistics</p>
+    <div class="flex text-secondary-rotate gap-8 mt-2">
+      <p><strong>Total Karma:</strong> <%= @total_karma %></p>
+      <p><strong>Total Votes:</strong> <%= @total_votes %></p>
+      <p><strong>Average Vote Value:</strong> <%= @average_vote_value %></p>
+    </div>
   </div>
 
-  <!-- Tabs -->
-  <div x-data="{ tab: 'posts' }">
-    <!-- Tab Buttons -->
-    <nav class="flex mb-4">
-      <button
-        class="py-2 px-4 rounded-t-lg focus:outline-none"
-        :class="{ 'bg-white text-blue-500': tab === 'posts', 'bg-gray-200 text-gray-600': tab !== 'posts' }"
-        @click="tab = 'posts'">
-        Posts
-      </button>
-      <button
-        class="py-2 px-4 ml-2 rounded-t-lg focus:outline-none"
-        :class="{ 'bg-white text-blue-500': tab === 'comments', 'bg-gray-200 text-gray-600': tab !== 'comments' }"
-        @click="tab = 'comments'">
-        Comments
-      </button>
-      <button
-        class="py-2 px-4 ml-2 rounded-t-lg focus:outline-none"
-        :class="{ 'bg-white text-blue-500': tab === 'votes', 'bg-gray-200 text-gray-600': tab !== 'votes' }"
-        @click="tab = 'votes'">
-        Votes
-      </button>
-    </nav>
+  <!-- Tabs for Posts, Comments, Groups, and Votes -->
+  <div data-controller="tabs">
+    <div class="flex gap-4 border-b-2 mb-4">
+      <button data-action="tabs#change" data-tabs-target="tab" data-tab="posts" class="tab-btn">Posts</button>
+      <button data-action="tabs#change" data-tabs-target="tab" data-tab="comments" class="tab-btn">Comments</button>
+      <button data-action="tabs#change" data-tabs-target="tab" data-tab="groups" class="tab-btn">Groups</button>
+      <button data-action="tabs#change" data-tabs-target="tab" data-tab="votes" class="tab-btn">Votes</button>
+    </div>
 
-    <!-- Tab Contents -->
-    <div class="bg-white p-4 rounded-b-lg shadow">
+    <!-- Tab Content -->
+    <div>
       <!-- Posts Tab -->
-      <div x-show="tab === 'posts'">
-        <% if @posts.any? %>
-          <div class="space-y-4">
-            <% @posts.each do |post| %>
-              <div class="border p-4 rounded">
-                <h2 class="text-xl font-bold"><%= link_to post.title, post_path(post), class: "hover:underline" %></h2>
-                <p class="text-gray-600"><%= truncate(post.content, length: 100) %></p>
-                <p class="text-sm text-gray-500">Posted on <%= post.created_at.strftime("%B %d, %Y") %></p>
-              </div>
-            <% end %>
-          </div>
-        <% else %>
-          <p class="text-gray-600">No posts yet.</p>
-        <% end %>
+      <div data-tabs-target="content" data-tab="posts" class="hidden">
+        <h2 class="text-xl font-semibold mb-2">Posts</h2>
+        <ul>
+          <% @posts.each do |post| %>
+            <li class="mb-2 p-2">
+              <%= link_to post.title, post_path(post), class: "text-blue-500 hover:underline" %>
+              <span class="text-secondary-rotate">- <%= post.created_at.strftime("%B %d, %Y") %></span>
+            </li>
+          <% end %>
+        </ul>
       </div>
 
       <!-- Comments Tab -->
-      <div x-show="tab === 'comments'" x-cloak>
-        <% if @comments.any? %>
-          <div class="space-y-4">
-            <% @comments.each do |comment| %>
-              <div class="border p-4 rounded">
-                <p class="text-gray-700"><%= comment.content %></p>
-                <p class="text-sm text-gray-500">
-                  Commented on
-                  <%= link_to comment.post.title, post_path(comment.post), class: "text-blue-500 hover:underline" %>
-                  on <%= comment.created_at.strftime("%B %d, %Y") %>
-                </p>
-              </div>
-            <% end %>
-          </div>
-        <% else %>
-          <p class="text-gray-600">No comments yet.</p>
-        <% end %>
+      <div data-tabs-target="content" data-tab="comments" class="hidden">
+        <h2 class="text-xl font-semibold mb-2">Comments</h2>
+        <ul>
+          <% @comments.each do |comment| %>
+            <li class="mb-2 p-2">
+              <p class="text-secondary text-lg ">"<%= comment.content %>"</p>  
+              <%= link_to comment.post.title, post_path(comment.post), class: "text-blue-500 hover:underline" %>
+              <span class="text-secondary-rotate">- <%= comment.created_at.strftime("%B %d, %Y") %></span></li>
+          <% end %>
+        </ul>
+      </div>
+
+      <!-- Groups Tab -->
+      <div data-tabs-target="content" data-tab="groups" class="hidden">
+        <h2 class="text-xl font-semibold mb-2">Groups</h2>
+        <ul>
+          <% @groups.each do |group| %>
+            <li class="mb-2"><%= link_to group.name, group_path(group) %></li>
+          <% end %>
+        </ul>
       </div>
 
       <!-- Votes Tab -->
-      <div x-show="tab === 'votes'" x-cloak>
-        <% if @votes.any? %>
-          <div class="space-y-4">
-            <% @votes.each do |vote| %>
-              <div class="border p-4 rounded">
-                <p class="text-gray-700">
-                  Voted <%= vote.value == 1 ? 'Up' : 'Down' %> on
-                  <% if vote.votable_type == 'Post' %>
-                    Post: <%= link_to vote.votable.title, post_path(vote.votable), class: "text-blue-500 hover:underline" %>
-                  <% elsif vote.votable_type == 'Comment' %>
-                    Comment: <%= truncate(vote.votable.content, length: 50) %>
-                  <% end %>
-                </p>
-                <p class="text-sm text-gray-500">On <%= vote.created_at.strftime("%B %d, %Y") %></p>
-              </div>
-            <% end %>
-          </div>
-        <% else %>
-          <p class="text-gray-600">No votes yet.</p>
-        <% end %>
+      <div data-tabs-target="content" data-tab="votes" class="hidden">
+        <h2 class="text-xl font-semibold mb-2">Votes</h2>
+        <ul>
+          <% @votes.each do |vote| %>
+            <li class="mb-2">
+              <% if vote.value == 1 %>
+                <strong class="text-green-500">Upvoted</strong>
+              <% else %>
+                <strong class="text-red-500">Downvoted</strong>
+              <% end %>
+              <%= vote.votable_type == 'Post' ? link_to(vote.votable.title, post_path(vote.votable)) : "a Comment" %>
+            </li>
+          <% end %>
+        </ul>
       </div>
     </div>
   </div>
