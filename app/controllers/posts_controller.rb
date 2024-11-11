@@ -7,6 +7,26 @@ class PostsController < ApplicationController
   # GET /posts or /posts.json
   def index
     @posts = Post.all
+    # Filtering by date range
+    if params[:start_date].present? && params[:end_date].present?
+      start_date = Date.parse(params[:start_date])
+      end_date = Date.parse(params[:end_date])
+      @posts = @posts.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+    end
+
+    # Sorting
+    case params[:sort]
+    when 'most_voted'
+      @posts = @posts.most_voted
+    when 'highest_average'
+      @posts = @posts.highest_average
+    when 'trending'
+      @posts = @posts.trending
+    when 'verified'
+      @posts = @posts.verified
+    else
+      @posts = @posts.order(created_at: :desc) # Default to recency
+    end
   end
 
   # GET /posts/1 or /posts/1.json

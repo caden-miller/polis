@@ -119,7 +119,7 @@ end
 # Create posts with thoughtful content related to policy issues
 posts = []
 policy_issues.each do |policy_issue|
-  3.times do
+  rand(3..7).times do
     user = users.sample
 
     # Generate a meaningful title based on the policy issue
@@ -143,7 +143,8 @@ policy_issues.each do |policy_issue|
       title: title,
       content: content,
       policy_issue: policy_issue,
-      user: user
+      user: user,
+      verified: [true, false].sample
     )
 
     # Occasionally add references

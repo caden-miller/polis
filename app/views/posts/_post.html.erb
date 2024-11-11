@@ -29,6 +29,7 @@
         <% post.references.each do |reference| %>
           <li>
             <%= link_to reference.text, reference.url, target: "_blank", rel: "noopener noreferrer", class: "text-blue-600 hover:underline break-all" %>
+            <p class="text-secondary-rotate">[<%= reference.url %>]</p>
           </li> 
         <% end %>
       </ul>

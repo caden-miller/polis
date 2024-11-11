@@ -1,10 +1,37 @@
 <!-- app/views/posts/index.html.erb -->
 <div class="container mx-auto px-4 py-6">
-  <h1 class="text-3xl font-bold mb-4">Posts</h1>
-  <div class="flex justify-end mb-6">
+  
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold mb-4">Posts</h1>
     <%= link_to 'New Post', new_post_path, class: 'bg-accent text-white px-4 py-2 rounded' %>
   </div>
 
+  <!-- Sorting and Filtering Controls -->
+  <%= form_with url: posts_path, method: :get, local: true, data: { controller: 'posts' } do %>
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+      <div class="flex items-center space-x-4 mb-4 md:mb-0">
+        <label for="sort" class="font-medium">Sort by:</label>
+        <select id="sort" name="sort" class="border rounded px-3 py-2 text-black" data-action="change->posts#submitForm">
+          <option value="">Recency</option>
+          <option value="most_voted" <%= 'selected' if params[:sort] == 'most_voted' %>>Most Voted</option>
+          <option value="highest_average" <%= 'selected' if params[:sort] == 'highest_average' %>>Top</option>
+          <option value="trending" <%= 'selected' if params[:sort] == 'trending' %>>Trending</option>
+          <option value="verified" <%= 'selected' if params[:sort] == 'verified' %>>Verified</option>
+        </select>
+      </div>
+  
+
+      <!-- Date Range Filter -->
+      <div data-controller="daterange" class="flex items-center space-x-4">
+        <label for="start_date" class="font-medium">From:</label>
+        <input type="date" id="start_date" name="start_date" value="<%= params[:start_date] %>" class="border rounded px-3 py-2" data-daterange-target="startDate" data-action="change->posts#submitForm">
+        <label for="end_date" class="font-medium">To:</label>
+        <input type="date" id="end_date" name="end_date" value="<%= params[:end_date] %>" class="border rounded px-3 py-2" data-daterange-target="endDate" data-action="change->posts#submitForm">
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Posts Grid -->
   <% if @posts.any? %>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <% @posts.each do |post| %>

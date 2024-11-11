@@ -42,4 +42,32 @@ class Post < ApplicationRecord
     end
     processed_content.html_safe
   end
+
+  # Scope for most voted on (positive and negative)
+  scope :most_voted, -> {
+    select('posts.*, COUNT(votes.id) AS votes_count')
+    .joins(:votes)
+    .group('posts.id')
+    .order('votes_count DESC')
+  }
+
+  # Scope for highest vote average (most positive vs negative)
+  scope :highest_average, -> {
+    select('posts.*, AVG(votes.value) AS avg_vote')
+    .joins(:votes)
+    .group('posts.id')
+    .order('avg_vote DESC')
+  }
+
+  # Scope for trending (e.g., most votes in the last 7 days)
+  scope :trending, -> {
+    select('posts.*, COUNT(votes.id) AS recent_votes_count')
+    .joins(:votes)
+    .where('votes.created_at >= ?', 7.days.ago)
+    .group('posts.id')
+    .order('recent_votes_count DESC')
+  }
+
+  # Scope for verified posts
+  scope :verified, -> { where(verified: true).order(created_at: :desc) }
 end
