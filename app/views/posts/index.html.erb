@@ -19,6 +19,17 @@
           <option value="verified" <%= 'selected' if params[:sort] == 'verified' %>>Verified</option>
         </select>
       </div>
+
+      <!-- Political Affiliation Filter -->
+      <div class="flex items-center space-x-4 mb-4 md:mb-0">
+        <label for="political_affiliation" class="font-medium">Political Affiliation:</label>
+        <select id="political_affiliation" name="political_affiliation" class="border rounded px-3 py-2 text-black" data-action="change->posts#submitForm">
+          <option value="">All</option>
+          <option value="Democrat" <%= 'selected' if params[:political_affiliation] == 'Democrat' %>>Democrat</option>
+          <option value="Republican" <%= 'selected' if params[:political_affiliation] == 'Republican' %>>Republican</option>
+          <option value="Moderate" <%= 'selected' if params[:political_affiliation] == 'Moderate' %>>Moderate</option>
+        </select>
+      </div>
   
 
       <!-- Date Range Filter -->

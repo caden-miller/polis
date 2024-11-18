@@ -3,8 +3,18 @@
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
 
-  <div class="flex flex-col">
-    
+  <div class="flex flex-col relative rounded-t-md overflow-hidden ">
+    <% if @post.user.present? %>
+      
+      <% if @post.user.political_affiliation == "Republican" %>
+        <div class="absolute top-0 right-0 w-0 h-0 border-t-[20px] border-l-[20px] border-t-red-500 border-l-transparent"></div>
+      <% elsif @post.user.political_affiliation == "Democrat" %>
+        <div class="absolute top-0 right-0 w-0 h-0 border-t-[20px] border-l-[20px] border-t-blue-500 border-l-transparent"></div>
+      <% else %>
+        <div class="absolute top-0 right-0 w-0 h-0 border-t-[20px] border-l-[20px] border-t-green-500 border-l-transparent"></div>
+      <% end %>
+    <% end %>
+
     <!-- Post Title -->
     <div class="bg-primary-rotate border-b border-secondary-rotate shadow-md p-4 rounded-t-lg">
       <p class="text-secondary-rotate text-sm mb-2"><%= @post.policy_issue %></p>
@@ -55,7 +65,16 @@
       
       <% if @comments.any? %>
         <% @comments.each do |comment| %>
-          <div class="flex flex-row gap-10 justify-center items-center [&:not(:last-child)]:border-b border-secondary-rotate p-4">
+          <div class="flex flex-row gap-10 justify-center items-center [&:not(:last-child)]:border-b border-secondary-rotate p-4 relative">
+          <% if comment.user.present? %>
+            <% if comment.user.political_affiliation == "Republican" %>
+              <div class="absolute top-0 right-0 w-0 h-0 border-t-[20px] border-l-[20px] border-t-red-500 border-l-transparent"></div>
+            <% elsif comment.user.political_affiliation == "Democrat" %>
+              <div class="absolute top-0 right-0 w-0 h-0 border-t-[20px] border-l-[20px] border-t-blue-500 border-l-transparent"></div>
+            <% else %>
+              <div class="absolute top-0 right-0 w-0 h-0 border-t-[20px] border-l-[20px] border-t-green-500 border-l-transparent"></div>
+            <% end %>
+          <% end %>
             <div class="flex flex-col flex-1 justify-center h-full">
               <p class="text-secondary"><%= comment.content %></p>
                 <%= link_to (comment.user ? comment.user.display_name : "Deleted User"), user_path(comment.user), class: "mt-2 text-accent hover:underline" %>
